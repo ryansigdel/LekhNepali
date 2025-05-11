@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "NepaliLekh: Roman to Nepali Unicode Converter",
+  "version": "1.0",
+  "description": "Convert Romanized Nepali text to Nepali Unicode",
+  "permissions": ["activeTab", "clipboardWrite"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "static/icon.png"
+  },
+  "icons": {
+    "128": "static/icon.png",
+    "48": "static/icon.png",
+    "16": "static/icon.png",
+    "32": "static/icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["static/branch.js", "static/converter.js", "static/main.js", "content.js"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+} 

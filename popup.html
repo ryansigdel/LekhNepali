@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>नेपाली Lekh</title>
+    <style>
+        :root {
+            --primary: #003893;
+            --primary-light: #0047b3;
+            --accent: #DC143C;
+            --accent-light: #ff1a4a;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+        
+        body {
+            width: 350px;
+            padding: 24px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--background);
+            margin: 0;
+            color: var(--text);
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .logo-nepali {
+            color: var(--primary);
+        }
+
+        .logo-lekh {
+            color: var(--accent);
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        input, .output {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+            background: var(--surface);
+            color: var(--text);
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 56, 147, 0.1);
+        }
+        
+        .output {
+            min-height: 50px;
+            background: var(--background);
+            font-family: 'Noto Sans', sans-serif;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            flex: 1;
+        }
+        
+        .copy {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .copy:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+        }
+        
+        .clear {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .clear:hover {
+            background: var(--accent-light);
+            transform: translateY(-1px);
+        }
+        
+        .smart-converter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: var(--background);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-light);
+            border: 1.5px solid var(--border);
+        }
+        
+        .smart-converter input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .footer a:hover {
+            color: var(--primary-light);
+        }
+
+        .instagram-icon {
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .notification.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <span class="logo-nepali">नेपाली</span>
+                <span class="logo-lekh">Lekh</span>
+            </div>
+        </div>
+        <div class="input-group">
+            <label class="label">Romanized Nepali</label>
+            <input type="text" id="romanInput" placeholder="Type here (e.g., Aryan)" autocomplete="off">
+        </div>
+        <div class="input-group">
+            <label class="label">Nepali Unicode</label>
+            <div class="output" id="unicodeOutput"></div>
+        </div>
+        <div class="actions">
+            <button class="copy" id="copyBtn">Copy</button>
+            <button class="clear" id="clearBtn">Clear</button>
+        </div>
+        <div class="smart-converter">
+            <input type="checkbox" checked id="smartConverter">
+            <label>Smart Converter</label>
+        </div>
+        <div class="footer">
+            <a href="https://instagram.com/ryansigdel" target="_blank">
+                <span class="instagram-icon"></span>
+                @ryansigdel
+            </a>
+            <span style="margin: 0 4px;">•</span>
+            <span>© 2024 NepaliLekh</span>
+        </div>
+    </div>
+    <div class="notification" id="copySuccess">Copied to clipboard!</div>
+    <script src="static/branch.js"></script>
+    <script src="static/converter.js"></script>
+    <script src="static/main.js"></script>
+    <script src="static/popup.js"></script>
+</body>
+</html> 
